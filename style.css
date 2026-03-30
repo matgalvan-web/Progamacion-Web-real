@@ -137,20 +137,80 @@ body::-webkit-scrollbar-thumb:hover {
     background: #111;
 }
 
+.hero {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 160px 0 60px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.hero-copy {
+    max-width: 760px;
+    text-align: center;
+}
+
+.hero-label {
+    color: #8b8b8b;
+    letter-spacing: 0.35em;
+    font-size: 0.72rem;
+    margin-bottom: 22px;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 0.95;
+    margin: 0;
+    color: #ffffff;
+    letter-spacing: -0.08em;
+}
+
+.hero-description {
+    color: #b3b3b3;
+    margin: 24px auto 0;
+    max-width: 560px;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+}
+
+.hero-cta {
+    display: inline-block;
+    margin-top: 36px;
+    padding: 12px 28px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #f7f7f7;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.hero-cta:hover {
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.28);
+    background: rgba(255,255,255,0.02);
+}
+
 /* --- 5. GRILLA DE PRODUCTOS --- */
 .content-wrapper {
-    padding-top: 220px;
-    padding-bottom: 120px;
+    width: 100%;
+    padding: 220px 40px 120px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 28px;
-    width: 92%;
-    max-width: 1400px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 36px;
+    width: min(1600px, calc(100% - 80px));
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 /* --- 6. ÍTEM DE PRODUCTO CON ANIMACIONES --- */
@@ -260,9 +320,9 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* --- 8. RESPONSIVE --- */
-@media (max-width: 1400px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
-@media (max-width: 900px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1400px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { 
-    .product-grid { grid-template-columns: repeat(2, 1fr); } 
+    .product-grid { grid-template-columns: repeat(1, 1fr); } 
     .brand-name { font-size: 2rem; }
 }
