@@ -44,10 +44,11 @@ body::-webkit-scrollbar-thumb:hover {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.94);
+    background-color: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(12px);
     z-index: 1000;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .brand-logo-link {
@@ -55,14 +56,73 @@ body::-webkit-scrollbar-thumb:hover {
     align-items: center;
 }
 
+.main-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 70%);
+}
+
+.sub-nav a,
+.cart-link,
+.auth-button {
+    color: #a2a2a2;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    position: relative;
+    padding: 0 10px 4px;
+    line-height: 1.2;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.auth-button {
+    border: none;
+    background: transparent;
+}
+
+.register-button {
+    background: transparent;
+}
+
+.auth-button:hover,
+.cart-link:hover,
+.sub-nav a:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.sub-nav a:not(.cart-link)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.sub-nav a:not(.cart-link):hover {
+    color: #ffffff;
+}
+
+.sub-nav a:not(.cart-link):hover::after {
+    width: 100%;
+}
+
 .brand-logo {
-    width: 48px;
+    width: 220px;
+    max-height: 100px;
     height: auto;
     display: block;
 }
 
 .brand-name {
-    font-size: 3.2rem;
+    font-size: 2.6rem;
     font-weight: 700;
     letter-spacing: -2px;
     margin: 0;
@@ -81,37 +141,14 @@ body::-webkit-scrollbar-thumb:hover {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 28px;
+    gap: 20px;
 }
 
-.sub-nav a {
-    color: #a2a2a2;
-    text-decoration: none;
-    font-size: 0.78rem;
-    letter-spacing: 1px;
-    position: relative;
-    padding-bottom: 4px;
-    transition: color 0.3s ease;
-}
-
-/* Línea que se expande en el menú */
-.sub-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: #ffffff;
-    transition: width 0.3s ease;
-}
-
-.sub-nav a:hover {
-    color: #ffffff;
-}
-
-.sub-nav a:hover::after {
-    width: 100%;
+.nav-links,
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
 /* --- 4. BUSCADOR DINÁMICO --- */
@@ -138,66 +175,124 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .hero {
+    position: relative;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 160px 0 60px;
+    padding: 90px 0 60px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: -20% 10% 10% -20%;
+    background: radial-gradient(circle at top, rgba(255,255,255,0.14), transparent 25%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08), transparent 12%);
+    opacity: 0.35;
+    filter: blur(36px);
+    pointer-events: none;
 }
 
 .hero-copy {
+    position: relative;
+    z-index: 1;
     max-width: 760px;
     text-align: center;
 }
 
 .hero-label {
-    color: #8b8b8b;
-    letter-spacing: 0.35em;
+    color: #9c9c9c;
+    letter-spacing: 0.4em;
     font-size: 0.72rem;
     margin-bottom: 22px;
+    opacity: 0.9;
 }
 
 .hero-title {
-    font-size: clamp(3rem, 5vw, 5rem);
+    font-size: clamp(3rem, 5vw, 4.4rem);
     line-height: 0.95;
     margin: 0;
     color: #ffffff;
-    letter-spacing: -0.08em;
+    letter-spacing: -0.06em;
+    text-shadow: 0 0 20px rgba(255,255,255,0.08);
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeInUpText 0.8s ease-out forwards;
+    animation-delay: 0.25s;
 }
 
 .hero-description {
-    color: #b3b3b3;
+    color: #c2c2c2;
     margin: 24px auto 0;
     max-width: 560px;
-    line-height: 1.8;
+    line-height: 1.9;
     font-size: 0.95rem;
     letter-spacing: 0.08em;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeInUpText 0.8s ease-out forwards;
+    animation-delay: 0.5s;
 }
 
 .hero-cta {
     display: inline-block;
     margin-top: 36px;
     padding: 12px 28px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
     color: #f7f7f7;
     text-decoration: none;
     font-size: 0.78rem;
     letter-spacing: 0.25em;
-    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeInUpText 0.8s ease-out forwards;
+    animation-delay: 0.75s;
 }
 
 .hero-cta:hover {
     color: #ffffff;
-    border-color: rgba(255,255,255,0.28);
-    background: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 16px 28px rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+}
+
+.hero-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hero-cta:hover::after {
+    opacity: 1;
+}
+
+@keyframes fadeInUpText {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- 5. GRILLA DE PRODUCTOS --- */
 .content-wrapper {
     width: 100%;
-    padding: 220px 40px 120px;
+    padding: 120px 40px 120px;
     display: flex;
     justify-content: center;
     align-items: center;
