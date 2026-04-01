@@ -43,77 +43,6 @@
             </div>
         </section>
 
-        <section class="featured-collections">
-            <div class="section-label">DESTACADOS</div>
-            <div class="section-title">Imágenes rectangulares para darle energía a OFF-BLACK</div>
-            <div class="feature-grid">
-                <article class="feature-card">
-                    <img src="Imagenes/camperanegra.png.webp" alt="Colección street noir">
-                    <div class="feature-copy">
-                        <span class="feature-tag">STREET CORE</span>
-                        <h3>Campera nocturna</h3>
-                        <p>Una pieza estructurada con presencia urbana y líneas bien definidas.</p>
-                    </div>
-                </article>
-                <article class="feature-card">
-                    <img src="Imagenes/remerasverdes.png.webp" alt="Remeras urbanas">
-                    <div class="feature-copy">
-                        <span class="feature-tag">BASICS</span>
-                        <h3>Remeras esenciales</h3>
-                        <p>Contraste suave, corte moderno y un bloque visual más contundente.</p>
-                    </div>
-                </article>
-                <article class="feature-card">
-                    <img src="Imagenes/pantalonblanco.png.webp" alt="Pantalón blanco">
-                    <div class="feature-copy">
-                        <span class="feature-tag">CONTRASTE</span>
-                        <h3>Pantalón claro</h3>
-                        <p>Minimalismo con actitud para balancear la nueva colección OFF-BLACK.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="lookbook-section">
-            <div class="section-label">LOOKBOOK</div>
-            <div class="section-title">Más imágenes rectangulares para inspirarte</div>
-            <div class="lookbook-grid">
-                <article class="lookbook-card">
-                    <img src="Imagenes/hoodienegropng.webp" alt="Lookbook hoodie negro">
-                    <div>
-                        <h3>Atuendo nocturno</h3>
-                        <p>Una composición moderna con silueta relajada y líneas sólidas.</p>
-                    </div>
-                </article>
-                <article class="lookbook-card">
-                    <img src="Imagenes/camperapuffer.png.webp" alt="Lookbook campera puffer">
-                    <div>
-                        <h3>Textura y volumen</h3>
-                        <p>La pieza técnica que define la temporada y agrega actitud a cada outfit.</p>
-                    </div>
-                </article>
-                <article class="lookbook-card">
-                    <img src="Imagenes/lentes2.png.webp" alt="Lookbook lentes de sol">
-                    <div>
-                        <h3>Detalles clave</h3>
-                        <p>Accesorios limpios y geométricos que completan la identidad OFF-BLACK.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <section class="limited-collection">
-            <div class="limited-card">
-                <div class="limited-copy">
-                    <span class="section-label">COLECCIÓN LIMITADA</span>
-                    <div class="section-title">OFF-BLACK X NIGHT RIDER</div>
-                    <p>Solo 30 unidades. Prendas utilitarias con detalles reflectantes, cortes técnicos y una paleta oscura que se siente urbana.</p>
-                    <a href="#" class="hero-cta">Explorar ahora</a>
-                </div>
-                <img src="Imagenes/rompevientoscrema.png.webp" alt="Colección limitada OFF-BLACK">
-            </div>
-        </section>
-
         <div class="product-grid">
             <div class="item">
                 <div class="image-box"><img src="Imagenes/camperanegra.png.webp" alt="REME RAFA"></div>
@@ -212,22 +141,6 @@
                 <div class="item-meta"><span>CAMPERA PUFFER</span><span>$240.000</span></div>
             </div>
         </div>
-
-        <section class="story-section">
-            <div class="story-grid">
-                <div class="story-copy">
-                    <div class="section-label">HISTORIA</div>
-                    <div class="section-title">Una marca con pulso urbano</div>
-                    <p>OFF-BLACK nace para vestir las noches de la ciudad con piezas sobrias, texturas auténticas y una identidad minimalista que no pasa desapercibida.</p>
-                    <p>Cada lanzamiento equilibra materiales resistentes con cortes contemporáneos: un lenguaje visual oscuro, limpio y elegante para quienes buscan presencia sin ruido.</p>
-                    <a href="#" class="story-cta">VER LOOKBOOK</a>
-                </div>
-                <div class="story-image-card">
-                    <img src="Imagenes/camperacuero.png.webp" alt="Historia de la marca OFF-BLACK">
-                    <span class="story-badge">LOOKBOOK</span>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">
