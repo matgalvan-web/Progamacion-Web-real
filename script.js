@@ -26,12 +26,34 @@ const productos = [
     { id: 24, nombre: "CAMPERA PUFFER", precio: 240000, imagen: "Imagenes/camperapuffer.png.webp", alt: "CAMPERA PUFFER" }
 ];
 
+// === ESTADO GLOBAL ===
+let textoBusqueda = '';
+
+// === FUNCIÓN PARA FILTRAR PRODUCTOS ===
+function obtenerProductosFiltrados() {
+    if (textoBusqueda.trim() === '') {
+        return productos; // Si está vacío, retorna todos
+    }
+    
+    const busqueda = textoBusqueda.toLowerCase().trim();
+    return productos.filter(producto => 
+        producto.nombre.toLowerCase().includes(busqueda)
+    );
+}
+
 // === FUNCIÓN PARA RENDERIZAR LA GRILLA ===
 function renderizarProductos() {
     const contenedor = document.getElementById('productos');
+    const productosFiltrados = obtenerProductosFiltrados();
+    
     contenedor.innerHTML = ''; // Limpiar contenedor
     
-    productos.forEach(producto => {
+    if (productosFiltrados.length === 0) {
+        contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">No se encontraron productos</p>';
+        return;
+    }
+    
+    productosFiltrados.forEach(producto => {
         const item = document.createElement('div');
         item.className = 'item';
         item.innerHTML = `
@@ -43,6 +65,18 @@ function renderizarProductos() {
         `;
         contenedor.appendChild(item);
     });
+}
+
+// === FUNCIÓN PARA MANEJAR BÚSQUEDA EN TIEMPO REAL ===
+function inicializarBusqueda() {
+    const searchInput = document.querySelector('.search-input');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', (evento) => {
+            textoBusqueda = evento.target.value;
+            renderizarProductos(); // Se actualiza automáticamente mientras escribes
+        });
+    }
 }
 
 // === FUNCIÓN PARA CAMBIAR PRECIOS DINÁMICAMENTE ===
@@ -58,4 +92,7 @@ function cambiarPrecio(idProducto, nuevoPrecio) {
 }
 
 // === EJECUTAR AL CARGAR LA PÁGINA ===
-document.addEventListener('DOMContentLoaded', renderizarProductos);
+document.addEventListener('DOMContentLoaded', () => {
+    renderizarProductos();
+    inicializarBusqueda();
+});
