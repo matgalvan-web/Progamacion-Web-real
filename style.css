@@ -571,6 +571,12 @@ body::-webkit-scrollbar-thumb:hover {
     flex-direction: column;
 }
 
+.content-wrapper.modo-busqueda {
+    padding: 80px 40px 120px;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

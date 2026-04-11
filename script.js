@@ -67,6 +67,38 @@ function renderizarProductos() {
     });
 }
 
+// === FUNCIÓN PARA OCULTAR/MOSTRAR SECCIONES ===
+function alternarSecciones() {
+    const secciones = [
+        '.hero',
+        '.featured-collections',
+        '.lookbook-section',
+        '.limited-collection',
+        '.story-section'
+    ];
+    
+    const hayBusqueda = textoBusqueda.trim() !== '';
+    const contenedor = document.querySelector('.content-wrapper');
+    
+    secciones.forEach(selector => {
+        const elemento = document.querySelector(selector);
+        if (elemento) {
+            elemento.style.display = hayBusqueda ? 'none' : 'block';
+        }
+    });
+    
+    // Agregar/quitar clase para ajustar el layout
+    if (contenedor) {
+        if (hayBusqueda) {
+            contenedor.classList.add('modo-busqueda');
+        } else {
+            contenedor.classList.remove('modo-busqueda');
+            // Forzar reflow para recalcular el layout
+            void contenedor.offsetHeight;
+        }
+    }
+}
+
 // === FUNCIÓN PARA MANEJAR BÚSQUEDA EN TIEMPO REAL ===
 function inicializarBusqueda() {
     const searchInput = document.querySelector('.search-input');
@@ -75,6 +107,7 @@ function inicializarBusqueda() {
         searchInput.addEventListener('input', (evento) => {
             textoBusqueda = evento.target.value;
             renderizarProductos(); // Se actualiza automáticamente mientras escribes
+            alternarSecciones(); // Oculta/muestra secciones según la búsqueda
         });
     }
 }
