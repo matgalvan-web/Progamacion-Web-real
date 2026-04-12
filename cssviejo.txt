@@ -115,8 +115,9 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .brand-logo {
-    width: 220px;
-    max-height: 100px;
+    width: auto;
+    max-width: 180px;
+    max-height: 90px;
     height: auto;
     display: block;
 }
@@ -284,6 +285,271 @@ body::-webkit-scrollbar-thumb:hover {
     opacity: 1;
 }
 
+.featured-collections {
+    width: min(1600px, calc(100% - 80px));
+    margin: 0 auto 60px;
+}
+
+.section-label {
+    color: #a1a1a1;
+    letter-spacing: 0.35em;
+    font-size: 0.74rem;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    color: #ffffff;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    margin-bottom: 28px;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.feature-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+    background: #070707;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.feature-copy {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 22px 22px 24px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.92) 100%);
+}
+
+.feature-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: #c4c4c4;
+    letter-spacing: 0.28em;
+    margin-bottom: 10px;
+}
+
+.feature-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.35rem;
+    line-height: 1.1;
+    color: #ffffff;
+}
+
+.feature-card p {
+    margin: 0;
+    color: #d4d4d4;
+    font-size: 0.92rem;
+    line-height: 1.8;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.18);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+}
+
+.feature-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.95) saturate(1.05);
+}
+
+.story-section,
+.lookbook-section,
+.limited-collection {
+    width: min(1600px, calc(100% - 80px));
+    margin: 0 auto 60px;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 28px;
+    align-items: center;
+}
+
+.story-copy {
+    padding: 36px 42px 38px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+}
+
+.story-copy p {
+    color: #d3d3d3;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    margin-bottom: 18px;
+}
+
+.story-cta {
+    display: inline-flex;
+    margin-top: 8px;
+    padding: 12px 28px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    color: #f7f7f7;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-cta:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-1px);
+}
+
+.story-image-card {
+    position: relative;
+    min-height: 420px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.story-image-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.story-image-card:hover img {
+    transform: scale(1.04);
+}
+
+.story-badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    display: inline-flex;
+    padding: 10px 14px;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    background: rgba(0,0,0,0.72);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #ffffff;
+}
+
+.lookbook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.lookbook-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 320px;
+    background: #070707;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lookbook-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.lookbook-card h3 {
+    margin: 0 0 14px;
+    padding: 0 18px 0;
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.lookbook-card p {
+    margin: 0;
+    color: #c6c6c6;
+    line-height: 1.8;
+    padding: 0 18px 18px;
+}
+
+.lookbook-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
+
+.limited-card {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    align-items: center;
+    padding: 32px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.2);
+}
+
+.limited-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.limited-copy p {
+    color: #d3d3d3;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    max-width: 590px;
+}
+
+.limited-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 340px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+@media (max-width: 900px) {
+    .featured-collections {
+        width: min(100%, calc(100% - 40px));
+    }
+    .story-grid {
+        grid-template-columns: 1fr;
+    }
+    .lookbook-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .limited-card {
+        grid-template-columns: 1fr;
+    }
+}
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+@media (max-width: 600px) {
+    .featured-collections {
+        margin-bottom: 40px;
+    }
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero {
+        padding-top: 70px;
+    }
+}
+
 @keyframes fadeInUpText {
     from {
         opacity: 0;
@@ -302,7 +568,17 @@ body::-webkit-scrollbar-thumb:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrapper.modo-busqueda {
+    padding: 160px 40px 120px;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: flex-start;
+    min-height: auto;
 }
 
 .product-grid {
@@ -312,6 +588,11 @@ body::-webkit-scrollbar-thumb:hover {
     width: min(1600px, calc(100% - 80px));
     max-width: 1600px;
     margin: 0 auto;
+}
+
+.content-wrapper:not(.modo-busqueda) .product-grid {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 /* --- 6. ÍTEM DE PRODUCTO CON ANIMACIONES --- */

@@ -568,13 +568,17 @@ body::-webkit-scrollbar-thumb:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 .content-wrapper.modo-busqueda {
-    padding: 80px 40px 120px;
+    padding: 160px 40px 120px;
     justify-content: flex-start;
     align-items: stretch;
+    align-content: flex-start;
+    min-height: auto;
 }
 
 .product-grid {
@@ -584,6 +588,11 @@ body::-webkit-scrollbar-thumb:hover {
     width: min(1600px, calc(100% - 80px));
     max-width: 1600px;
     margin: 0 auto;
+}
+
+.content-wrapper:not(.modo-busqueda) .product-grid {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 /* --- 6. ÍTEM DE PRODUCTO CON ANIMACIONES --- */
@@ -696,4 +705,72 @@ body::-webkit-scrollbar-thumb:hover {
 @media (max-width: 600px) { 
     .product-grid { grid-template-columns: repeat(1, 1fr); } 
     .brand-name { font-size: 2rem; }
+}
+
+/* --- MODAL DE PRODUCTO --- */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    position: relative;
+    margin: 5% auto;
+    padding: 40px;
+    width: 80%;
+    max-width: 900px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px; top: 10px;
+    color: #fff;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+#modal-img {
+    width: 100%;
+    filter: grayscale(0.2);
+}
+
+.modal-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#modal-price {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #888;
+}
+
+.add-to-cart-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    width: 100%;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background: #777;
+    color: #fff;
 }
