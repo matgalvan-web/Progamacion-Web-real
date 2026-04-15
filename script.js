@@ -95,6 +95,7 @@ function abrirModal(id) {
     const p = productos.find(prod => prod.id === id);
     if (!p) return;
 
+    // Llenamos el modal con la info del producto
     document.getElementById('modal-name').innerText = p.nombre;
     document.getElementById('modal-price').innerText = `$${p.precio.toLocaleString('es-AR')}`;
     document.getElementById('modal-img').src = p.imagen;
@@ -102,13 +103,13 @@ function abrirModal(id) {
     const modal = document.getElementById('product-modal');
     modal.style.display = "block";
 
-    // Configurar el botón de añadir al carrito
+    // Programamos el botón de añadir al carrito
     const btn = document.querySelector('.add-to-cart-btn');
     btn.onclick = () => {
-        carrito.push(p);
-        alert(`${p.nombre} AÑADIDO AL CARRITO`);
-        modal.style.display = "none";
-        console.log("Carrito actual:", carrito);
+        carrito.push(p); // Se agrega al array
+        document.getElementById('cart-count').innerText = carrito.length; // Actualiza el (0)
+        modal.style.display = "none"; // Cierra el modal
+        console.log("Producto agregado:", p.nombre);
     };
 }
 
