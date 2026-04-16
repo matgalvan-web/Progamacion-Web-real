@@ -107,6 +107,7 @@ function abrirModal(id) {
     const btn = document.querySelector('.add-to-cart-btn');
     btn.onclick = () => {
         carrito.push(p); // Se agrega al array
+        document.querySelector('.cart-link').innerText = `CART (${carrito.length})`; // <--- AGREGÁ ESTA LÍNEA
         document.getElementById('cart-count').innerText = carrito.length; // Actualiza el (0)
         modal.style.display = "none"; // Cierra el modal
         console.log("Producto agregado:", p.nombre);
@@ -151,4 +152,57 @@ window.onclick = (event) => {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+};
+
+// Función para actualizar y mostrar el carrito en forma de lista
+function mostrarCarrito() {
+    const listaContenedor = document.getElementById('cart-items-list');
+    const totalContenedor = document.getElementById('cart-total-amount');
+    
+    // Limpiamos la lista antes de volver a llenarla
+    listaContenedor.innerHTML = '';
+    let total = 0;
+
+    if (carrito.length === 0) {
+        listaContenedor.innerHTML = '<p style="color: #555; text-align: center; padding: 20px;">EL CARRITO ESTÁ VACÍO</p>';
+    } else {
+        carrito.forEach((p, index) => {
+            total += p.precio;
+            const row = document.createElement('div');
+            row.className = 'cart-item-row';
+            row.innerHTML = `
+                <img src="${p.imagen}" alt="${p.nombre}">
+                <div class="cart-item-info">
+                    <h4>${p.nombre}</h4>
+                    <p>$${p.precio.toLocaleString('es-AR')}</p>
+                </div>
+                <button onclick="eliminarDelCarrito(${index})" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 0.7rem;">QUITAR</button>
+            `;
+            listaContenedor.appendChild(row);
+        });
+    }
+
+    totalContenedor.innerText = `$${total.toLocaleString('es-AR')}`;
+    document.getElementById('cart-display-modal').style.display = 'block';
+}
+
+// Función para eliminar un producto de la lista
+function eliminarDelCarrito(index) {
+    carrito.splice(index, 1); // Borra el producto del array
+    // Actualizamos el contador visual del header
+    const cartLink = document.querySelector('.cart-link');
+    cartLink.innerText = `CART (${carrito.length})`;
+    
+    mostrarCarrito(); // Refresca la lista visual
+}
+
+// Conectamos el click del header para que abra el carrito
+document.querySelector('.cart-link').onclick = (e) => {
+    e.preventDefault();
+    mostrarCarrito();
+};
+
+// Cerrar el modal del carrito
+document.querySelector('.close-cart').onclick = () => {
+    document.getElementById('cart-display-modal').style.display = 'none';
 };
