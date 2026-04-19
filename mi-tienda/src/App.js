@@ -49,14 +49,24 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
 
   const filteredProducts = useMemo(() => {
     const term = searchQuery.toLowerCase().trim();
     return term === '' ? productos : productos.filter((producto) => producto.nombre.toLowerCase().includes(term));
   }, [searchQuery]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / productsPerPage));
+
+  const pageProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    return filteredProducts.slice(startIndex, startIndex + productsPerPage);
+  }, [filteredProducts, currentPage]);
+
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
+    setCurrentPage(1);
   };
 
   const openProductModal = (product) => {
@@ -184,21 +194,6 @@ function App() {
               </div>
             </section>
 
-            <section className="story-section">
-              <div className="story-grid">
-                <div className="story-copy">
-                  <div className="section-label">HISTORIA</div>
-                  <div className="section-title">Una marca con pulso urbano</div>
-                  <p>OFF-BLACK nace para vestir las noches de la ciudad con piezas sobrias, texturas auténticas y una identidad minimalista que no pasa desapercibida.</p>
-                  <p>Cada lanzamiento equilibra materiales resistentes con cortes contemporáneos: un lenguaje visual oscuro, limpio y elegante para quienes buscan presencia sin ruido.</p>
-                  <button type="button" className="story-cta" onClick={(e) => e.preventDefault()}>VER LOOKBOOK</button>
-                </div>
-                <div className="story-image-card">
-                  <img src="/Imagenes/camperacuero.png.webp" alt="Historia de la marca OFF-BLACK" />
-                  <span className="story-badge">LOOKBOOK</span>
-                </div>
-              </div>
-            </section>
           </>
         )}
 
@@ -206,7 +201,7 @@ function App() {
           {filteredProducts.length === 0 ? (
             <p className="no-results">NO SE ENCONTRARON RESULTADOS</p>
           ) : (
-            filteredProducts.map((producto) => (
+            pageProducts.map((producto) => (
               <article key={producto.id} className="item" onClick={() => openProductModal(producto)}>
                 <div className="image-box">
                   <img src={producto.imagen} alt={producto.nombre} />
@@ -219,6 +214,36 @@ function App() {
             ))
           )}
         </div>
+
+        {filteredProducts.length > productsPerPage && (
+          <div className="pagination">
+            <button type="button" onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} disabled={currentPage === 1}>
+              ANTERIOR
+            </button>
+            <span className="pagination-info">Página {currentPage} de {totalPages}</span>
+            <button type="button" onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))} disabled={currentPage === totalPages}>
+              SIGUIENTE
+            </button>
+          </div>
+        )}
+
+        {!hasSearch && (
+          <section className="story-section">
+            <div className="story-grid">
+              <div className="story-copy">
+                <div className="section-label">HISTORIA</div>
+                <div className="section-title">Una marca con pulso urbano</div>
+                <p>OFF-BLACK nace para vestir las noches de la ciudad con piezas sobrias, texturas auténticas y una identidad minimalista que no pasa desapercibida.</p>
+                <p>Cada lanzamiento equilibra materiales resistentes con cortes contemporáneos: un lenguaje visual oscuro, limpio y elegante para quienes buscan presencia sin ruido.</p>
+                <button type="button" className="story-cta" onClick={(e) => e.preventDefault()}>VER LOOKBOOK</button>
+              </div>
+              <div className="story-image-card">
+                <img src="/Imagenes/camperacuero.png.webp" alt="Historia de la marca OFF-BLACK" />
+                <span className="story-badge">LOOKBOOK</span>
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       {isCartOpen && (
