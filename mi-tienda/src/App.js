@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import './App.css';
 
 const productos = [
@@ -50,6 +50,10 @@ function App() {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const toastTimeoutRef = useRef(null);
+  const lookbookRef = useRef(null);
   const productsPerPage = 12;
 
   const filteredProducts = useMemo(() => {
@@ -69,6 +73,21 @@ function App() {
     setCurrentPage(1);
   };
 
+  const showToastMessage = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+    toastTimeoutRef.current = window.setTimeout(() => {
+      setShowToast(false);
+    }, 2200);
+  };
+
+  const scrollToLookbook = () => {
+    lookbookRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const openProductModal = (product) => {
     setSelectedProduct(product);
     setIsProductModalOpen(true);
@@ -82,6 +101,7 @@ function App() {
   const addToCart = (product) => {
     setCartItems((current) => [...current, product]);
     closeProductModal();
+    showToastMessage(`${product.nombre} agregado al carrito`);
   };
 
   const openCart = () => {
@@ -134,6 +154,10 @@ function App() {
         </nav>
       </header>
 
+      {showToast && (
+        <div className="toast-notification">{toastMessage}</div>
+      )}
+
       <main className="content-wrapper">
         {!hasSearch && (
           <>
@@ -166,7 +190,7 @@ function App() {
               </div>
             </section>
 
-            <section className="lookbook-section">
+            <section className="lookbook-section" ref={lookbookRef}>
               <div className="section-label">LOOKBOOK</div>
               <div className="section-title">Más imágenes rectangulares para inspirarte</div>
               <div className="lookbook-grid">
@@ -235,7 +259,7 @@ function App() {
                 <div className="section-title">Una marca con pulso urbano</div>
                 <p>OFF-BLACK nace para vestir las noches de la ciudad con piezas sobrias, texturas auténticas y una identidad minimalista que no pasa desapercibida.</p>
                 <p>Cada lanzamiento equilibra materiales resistentes con cortes contemporáneos: un lenguaje visual oscuro, limpio y elegante para quienes buscan presencia sin ruido.</p>
-                <button type="button" className="story-cta" onClick={(e) => e.preventDefault()}>VER LOOKBOOK</button>
+                <button type="button" className="story-cta" onClick={scrollToLookbook}>VER LOOKBOOK</button>
               </div>
               <div className="story-image-card">
                 <img src="/Imagenes/camperacuero.png.webp" alt="Historia de la marca OFF-BLACK" />
