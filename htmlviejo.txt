@@ -28,7 +28,7 @@
             <div class="nav-actions">
                 <a href="#" class="auth-button">INICIAR SESIÓN</a>
                 <a href="#" class="auth-button register-button">REGISTRARSE</a>
-                <a href="#" class="cart-link">CART (0)</a>
+                <a href="#" class="cart-link">CART (<span id="cart-count">0</span>)</a>
             </div>
         </nav>
     </header>
@@ -47,7 +47,7 @@
             <div class="section-label">DESTACADOS</div>
             <div class="section-title">Imágenes rectangulares para darle energía a OFF-BLACK</div>
             <div class="feature-grid">
-                <article class="feature-card">
+                <article class="feature-card" onclick="abrirModal(1)" style="cursor:pointer;">
                     <img src="Imagenes/camperanegra.png.webp" alt="Colección street noir">
                     <div class="feature-copy">
                         <span class="feature-tag">STREET CORE</span>
@@ -55,7 +55,7 @@
                         <p>Una pieza estructurada con presencia urbana y líneas bien definidas.</p>
                     </div>
                 </article>
-                <article class="feature-card">
+                <article class="feature-card" onclick="abrirModal(1)" style="cursor:pointer;">
                     <img src="Imagenes/remerasverdes.png.webp" alt="Remeras urbanas">
                     <div class="feature-copy">
                         <span class="feature-tag">BASICS</span>
@@ -63,7 +63,7 @@
                         <p>Contraste suave, corte moderno y un bloque visual más contundente.</p>
                     </div>
                 </article>
-                <article class="feature-card">
+                <article class="feature-card" onclick="abrirModal(1)" style="cursor:pointer;">
                     <img src="Imagenes/pantalonblanco.png.webp" alt="Pantalón blanco">
                     <div class="feature-copy">
                         <span class="feature-tag">CONTRASTE</span>
@@ -71,7 +71,7 @@
                         <p>Minimalismo con actitud para balancear la nueva colección OFF-BLACK.</p>
                     </div>
                 </article>
-                <article class="feature-card">
+                <article class="feature-card" onclick="abrirModal(1)" style="cursor:pointer;">
                     <img src="Imagenes/bolsogrande.png.webp" alt="Bolso grande">
                     <div class="feature-copy">
                         <span class="feature-tag">ACCESORIOS</span>
@@ -83,32 +83,30 @@
         </section>
 
         <section class="lookbook-section">
-            <div class="section-label">LOOKBOOK</div>
-            <div class="section-title">Más imágenes rectangulares para inspirarte</div>
-            <div class="lookbook-grid">
-                <article class="lookbook-card">
-                    <img src="Imagenes/hoodienegropng.webp" alt="Lookbook buzo negro">
-                    <div>
-                        <h3>Atuendo nocturno</h3>
-                        <p>Una composición moderna con silueta relajada y líneas sólidas.</p>
-                    </div>
-                </article>
-                <article class="lookbook-card">
-                    <img src="Imagenes/camperapuffer.png.webp" alt="Lookbook campera puffer">
-                    <div>
-                        <h3>Textura y volumen</h3>
-                        <p>La pieza técnica que define la temporada y agrega actitud a cada outfit.</p>
-                    </div>
-                </article>
-                <article class="lookbook-card">
-                    <img src="Imagenes/lentes2.png.webp" alt="Lookbook lentes de sol">
-                    <div>
-                        <h3>Detalles clave</h3>
-                        <p>Accesorios limpios y geométricos que completan la identidad OFF-BLACK.</p>
-                    </div>
-                </article>
+    <div class="section-label">LOOKBOOK</div>
+    <div class="section-title">Más imágenes rectangulares para inspirarte</div>
+    <div class="lookbook-grid">
+        
+        <article class="lookbook-card" onclick="abrirModal(8)" style="cursor:pointer;">
+            <img src="Imagenes/hoodienegropng.webp" alt="Lookbook buzo negro">
+            <div>
+                <h3>Atuendo nocturno</h3>
+                <p>Una composición moderna con silueta relajada y líneas sólidas.</p>
             </div>
-        </section>
+        </article> <article class="lookbook-card" onclick="abrirModal(24)" style="cursor:pointer;">
+            <img src="Imagenes/camperapuffer.png.webp" alt="Lookbook campera puffer">
+            <div>
+                <h3>Textura y volumen</h3>
+                <p>La pieza técnica que define la temporada y agrega actitud a cada outfit.</p>
+            </div>
+        </article> <article class="lookbook-card" onclick="abrirModal(10)" style="cursor:pointer;">
+            <img src="Imagenes/lentes2.png.webp" alt="Lookbook lentes de sol">
+            <div>
+                <h3>Detalles clave</h3>
+                <p>Accesorios limpios y geométricos que completan la identidad OFF-BLACK.</p>
+            </div>
+        </article> </div>
+</section>
 
         <section class="limited-collection">
             <div class="limited-card">
@@ -142,6 +140,37 @@
         </section>
     </main>
 
+<div id="cart-display-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-cart" style="position: absolute; right: 20px; top: 10px; color: #fff; font-size: 35px; cursor: pointer;">&times;</span>
+        <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">TU CARRITO</h2>
+        
+        <div id="cart-items-list" style="max-height: 400px; overflow-y: auto;"></div>
+        
+        <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 20px;">
+                <span>TOTAL:</span>
+                <span id="cart-total-amount">$0</span>
+            </div>
+            <button class="hero-cta" style="width: 100%; border-radius: 0; background: #fff; color: #000;">FINALIZAR COMPRA</button>
+        </div>
+    </div>
+</div>
+
+    <div id="product-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-body">
+            <img id="modal-img" src="" alt="">
+            <div class="modal-info">
+                <h2 id="modal-name"></h2>
+                <p id="modal-price"></p>
+                <button class="add-to-cart-btn">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <footer class="site-footer">
         <div class="footer-tags">
             <a href="#" class="tag">CONTACTO</a>
@@ -150,20 +179,6 @@
         </div>
         <p class="copyright">[ SITES TERMINATED ©️ 2026 ]</p>
     </footer>
-
-    <div id="product-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div class="modal-body">
-            <img id="modal-img" src="" alt="Producto">
-            <div class="modal-info">
-                <h2 id="modal-name">PRODUCTO</h2>
-                <p id="modal-price">$0</p>
-                <button id="add-to-cart-btn" class="add-to-cart-btn">AÑADIR AL CARRITO</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 </body>
 <script src="script.js"></script>
