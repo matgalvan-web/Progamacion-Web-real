@@ -352,8 +352,11 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .product-grid {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
   align-items: start;
+  justify-content: center;
+  width: min(100%, 1200px);
+  margin: 0 auto;
 }
 
 .feature-card,
@@ -475,10 +478,21 @@ body::-webkit-scrollbar-thumb:hover {
 
 .image-box {
   padding: 20px;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
 }
 
 .image-box img {
   border-radius: 20px;
+  max-height: 360px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.item {
+  width: 100%;
+  max-width: 420px;
 }
 
 .item-meta {
