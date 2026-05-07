@@ -27,47 +27,22 @@ const productos = [
 ];
 
 let textoBusqueda = '';
+let carrito = [];
 
-function renderizarProductos() {
-    const contenedor = document.getElementById('productos');
-    if (!contenedor) return;
-    
-    const busqueda = textoBusqueda.toLowerCase().trim();
-    const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
-    
-    contenedor.innerHTML = '';
-    
-    if (filtrados.length === 0 && busqueda !== '') {
-        contenedor.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 100px; color: #555;">NO SE ENCONTRARON RESULTADOS</p>`;
-        return;
+function actualizarContadorCarrito() {
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        cartCount.innerText = carrito.length;
     }
-    
-    filtrados.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.innerHTML = `
-            <div class="image-box"><img src="${p.imagen}" alt="${p.nombre}"></div>
-            <div class="item-meta">
-                <span>${p.nombre}</span>
-                <span>$${p.precio.toLocaleString('es-AR')}</span>
-            </div>
-        `;
-        contenedor.appendChild(div);
-    });
 }
 
 function alternarSecciones() {
     const hayBusqueda = textoBusqueda.trim() !== '';
-    
-    // Seleccionamos TODAS las secciones que quieres ocultar
     const seccionesAOcultar = document.querySelectorAll('.hero, .featured-collections, .lookbook-section, .limited-collection, .story-section');
 
     seccionesAOcultar.forEach(sec => {
         if (sec) {
-            // Si hay algo escrito en el buscador, ocultamos la sección entera
             sec.style.display = hayBusqueda ? 'none' : 'block';
-            
-            // Caso especial para el Hero si es flex
             if (sec.classList.contains('hero') && !hayBusqueda) {
                 sec.style.display = 'flex';
             }
@@ -75,62 +50,25 @@ function alternarSecciones() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const input = document.querySelector('.search-input');
-    if (input) {
-        input.addEventListener('input', (e) => {
-            textoBusqueda = e.target.value;
-            renderizarProductos();
-            alternarSecciones();
-        });
-    }
-    renderizarProductos();
-});
-
-// Variable para el carrito (en memoria)
-let carrito = [];
-
-// Función para abrir el modal
-function abrirModal(id) {
-    const p = productos.find(prod => prod.id === id);
-    if (!p) return;
-
-    // Llenamos el modal con la info del producto
-    document.getElementById('modal-name').innerText = p.nombre;
-    document.getElementById('modal-price').innerText = `$${p.precio.toLocaleString('es-AR')}`;
-    document.getElementById('modal-img').src = p.imagen;
-    
-    const modal = document.getElementById('product-modal');
-    modal.style.display = "block";
-
-    // Programamos el botón de añadir al carrito
-    const btn = document.querySelector('.add-to-cart-btn');
-    btn.onclick = () => {
-        carrito.push(p); // Se agrega al array
-        document.querySelector('.cart-link').innerText = `CART (${carrito.length})`; // <--- AGREGÁ ESTA LÍNEA
-        document.getElementById('cart-count').innerText = carrito.length; // Actualiza el (0)
-        modal.style.display = "none"; // Cierra el modal
-        console.log("Producto agregado:", p.nombre);
-    };
-}
-
-// Modificamos el renderizado para que responda al click
 function renderizarProductos() {
     const contenedor = document.getElementById('productos');
     if (!contenedor) return;
-    
+
     const busqueda = textoBusqueda.toLowerCase().trim();
     const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
-    
+
     contenedor.innerHTML = '';
-    
+
+    if (filtrados.length === 0 && busqueda !== '') {
+        contenedor.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 100px; color: #555;">NO SE ENCONTRARON RESULTADOS</p>`;
+        return;
+    }
+
     filtrados.forEach(p => {
         const div = document.createElement('div');
         div.className = 'item';
-        // Agregamos el evento onclick aquí
-        div.onclick = () => abrirModal(p.id); 
-        div.style.cursor = "pointer";
-        
+        div.style.cursor = 'pointer';
+        div.addEventListener('click', () => abrirModal(p.id));
         div.innerHTML = `
             <div class="image-box"><img src="${p.imagen}" alt="${p.nombre}"></div>
             <div class="item-meta">
@@ -142,24 +80,38 @@ function renderizarProductos() {
     });
 }
 
-// Cerrar el modal al hacer click en la X o fuera del cuadro
-document.querySelector('.close-modal').onclick = () => {
-    document.getElementById('product-modal').style.display = "none";
-};
+function abrirModal(id) {
+    const p = productos.find(prod => prod.id === id);
+    if (!p) return;
 
-window.onclick = (event) => {
     const modal = document.getElementById('product-modal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
+    const modalName = document.getElementById('modal-name');
+    const modalPrice = document.getElementById('modal-price');
+    const modalImg = document.getElementById('modal-img');
+    const btn = document.querySelector('.add-to-cart-btn');
 
-// Función para actualizar y mostrar el carrito en forma de lista
+    if (!modal || !modalName || !modalPrice || !modalImg || !btn) return;
+
+    modalName.innerText = p.nombre;
+    modalPrice.innerText = `$${p.precio.toLocaleString('es-AR')}`;
+    modalImg.src = p.imagen;
+    modal.style.display = 'block';
+
+    btn.onclick = () => {
+        carrito.push(p);
+        actualizarContadorCarrito();
+        modal.style.display = 'none';
+        console.log('Producto agregado:', p.nombre);
+    };
+}
+
 function mostrarCarrito() {
     const listaContenedor = document.getElementById('cart-items-list');
     const totalContenedor = document.getElementById('cart-total-amount');
-    
-    // Limpiamos la lista antes de volver a llenarla
+    const cartModal = document.getElementById('cart-display-modal');
+
+    if (!listaContenedor || !totalContenedor || !cartModal) return;
+
     listaContenedor.innerHTML = '';
     let total = 0;
 
@@ -176,33 +128,72 @@ function mostrarCarrito() {
                     <h4>${p.nombre}</h4>
                     <p>$${p.precio.toLocaleString('es-AR')}</p>
                 </div>
-                <button onclick="eliminarDelCarrito(${index})" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 0.7rem;">QUITAR</button>
+                <button class="remove-cart-item" data-index="${index}">QUITAR</button>
             `;
             listaContenedor.appendChild(row);
+        });
+
+        listaContenedor.querySelectorAll('.remove-cart-item').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = Number(event.currentTarget.dataset.index);
+                eliminarDelCarrito(index);
+            });
         });
     }
 
     totalContenedor.innerText = `$${total.toLocaleString('es-AR')}`;
-    document.getElementById('cart-display-modal').style.display = 'block';
+    cartModal.style.display = 'block';
 }
 
-// Función para eliminar un producto de la lista
 function eliminarDelCarrito(index) {
-    carrito.splice(index, 1); // Borra el producto del array
-    // Actualizamos el contador visual del header
-    const cartLink = document.querySelector('.cart-link');
-    cartLink.innerText = `CART (${carrito.length})`;
-    
-    mostrarCarrito(); // Refresca la lista visual
+    carrito.splice(index, 1);
+    actualizarContadorCarrito();
+    mostrarCarrito();
 }
 
-// Conectamos el click del header para que abra el carrito
-document.querySelector('.cart-link').onclick = (e) => {
-    e.preventDefault();
-    mostrarCarrito();
-};
+function cerrarProductModal() {
+    const modal = document.getElementById('product-modal');
+    if (modal) modal.style.display = 'none';
+}
 
-// Cerrar el modal del carrito
-document.querySelector('.close-cart').onclick = () => {
-    document.getElementById('cart-display-modal').style.display = 'none';
+window.addEventListener('DOMContentLoaded', () => {
+    const input = document.querySelector('.search-input');
+    if (input) {
+        input.addEventListener('input', (e) => {
+            textoBusqueda = e.target.value;
+            renderizarProductos();
+            alternarSecciones();
+        });
+    }
+
+    const cartLink = document.querySelector('.cart-link');
+    if (cartLink) {
+        cartLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            mostrarCarrito();
+        });
+    }
+
+    const closeCart = document.querySelector('.close-cart');
+    if (closeCart) {
+        closeCart.addEventListener('click', () => {
+            const cartModal = document.getElementById('cart-display-modal');
+            if (cartModal) cartModal.style.display = 'none';
+        });
+    }
+
+    const closeProductModalElement = document.querySelector('.close-modal');
+    if (closeProductModalElement) {
+        closeProductModalElement.addEventListener('click', cerrarProductModal);
+    }
+
+    renderizarProductos();
+    alternarSecciones();
+});
+
+window.onclick = (event) => {
+    const productModal = document.getElementById('product-modal');
+    if (event.target === productModal) {
+        cerrarProductModal();
+    }
 };
