@@ -546,7 +546,7 @@ body::-webkit-scrollbar-thumb:hover {
         grid-template-columns: 1fr;
     }
     .hero {
-        padding-top: 70px;
+        padding-top: 90px;
     }
 }
 
@@ -564,7 +564,7 @@ body::-webkit-scrollbar-thumb:hover {
 /* --- 5. GRILLA DE PRODUCTOS --- */
 .content-wrapper {
     width: 100%;
-    padding: 120px 40px 120px;
+    padding: 140px 40px 120px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -574,7 +574,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .content-wrapper.modo-busqueda {
-    padding: 160px 40px 120px;
+    padding: 180px 40px 120px;
     justify-content: flex-start;
     align-items: stretch;
     align-content: flex-start;
