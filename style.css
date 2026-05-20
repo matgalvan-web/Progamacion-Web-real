@@ -18,6 +18,12 @@ body {
     overflow-x: hidden;
 }
 
+input,
+textarea,
+select {
+    text-transform: none;
+}
+
 /* --- 2. BARRA DE SCROLL ESTILO INDUSTRIAL --- */
 body::-webkit-scrollbar {
     width: 6px;
