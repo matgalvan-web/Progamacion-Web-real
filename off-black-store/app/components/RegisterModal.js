@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function RegisterModal() {
-  const { isRegisterOpen, setIsRegisterOpen, register, authMessage, setAuthMessage } = useContext(AuthContext);
+  const { isRegisterOpen, setIsRegisterOpen, register, authMessage, setAuthMessage, setIsLoginOpen } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,14 +20,16 @@ export default function RegisterModal() {
     }
 
     setIsLoading(true);
-    const success = register(email, password, name);
-    setIsLoading(false);
-
-    if (success) {
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+    try {
+      const success = await register(email, password, name);
+      if (success) {
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,10 +113,7 @@ export default function RegisterModal() {
               className="auth-switch-btn"
               onClick={() => {
                 setIsRegisterOpen(false);
-                setTimeout(() => {
-                  const { setIsLoginOpen } = useContext(AuthContext);
-                  setIsLoginOpen(true);
-                }, 0);
+                setIsLoginOpen(true);
               }}
             >
               Inicia sesión aquí

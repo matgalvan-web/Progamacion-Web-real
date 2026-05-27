@@ -1,14 +1,24 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { productos } from '../data/productos';
+import { useEffect, useState } from 'react';
+import { getProducts } from '../../lib/supabaseOperations';
 
 export default function Productos({ searchTerm, onProductClick }) {
   const router = useRouter();
+  const [productos, setProductos] = useState([]);
   const busqueda = searchTerm.toLowerCase().trim();
-  const filtrados = productos.filter(p => 
-    p.nombre.toLowerCase().includes(busqueda)
-  );
+
+  useEffect(() => {
+    let mounted = true;
+    getProducts().then(res => {
+      if (!mounted) return;
+      if (res.success) setProductos(res.products || []);
+    });
+    return () => { mounted = false; };
+  }, []);
+
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(busqueda));
 
   const handleProductClick = (id) => {
     router.push(`/producto/${id}`);
