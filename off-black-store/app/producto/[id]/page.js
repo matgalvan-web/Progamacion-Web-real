@@ -1,49 +1,29 @@
 "use client";
 
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import ProductDetail from '../../components/ProductDetail';
 import Toast from '../../components/Toast';
-import { getProductById } from '../../../lib/supabaseOperations';
 import { CartContext } from '../../context/CartContext';
+import { productos } from '../../data/productos';
 
 export default function ProductoPage() {
   const params = useParams();
-  const [producto, setProducto] = useState(null);
-  const [error, setError] = useState('');
+  const router = useRouter();
   const { addToCart, toast, hideToast } = useContext(CartContext);
 
-  useEffect(() => {
-    let mounted = true;
-    const id = params.id;
-    if (!id) {
-      setError('ID de producto inválido.');
-      return;
-    }
-
-    getProductById(id)
-      .then((res) => {
-        if (!mounted) return;
-        if (res.success && res.product) {
-          setProducto(res.product);
-        } else {
-          setError(res.error || 'No se pudo cargar el producto.');
-        }
-      })
-      .catch((err) => {
-        if (!mounted) return;
-        setError(err?.message || 'Error al cargar el producto.');
-      });
-
-    return () => { mounted = false; };
-  }, [params.id]);
-
-  if (error) {
-    return <div className="loading">{error}</div>;
-  }
+  const id = params?.id;
+  const pid = id && !isNaN(Number(id)) ? Number(id) : id;
+  const producto = productos.find(p => String(p.id) === String(id) || p.id === pid) ?? null;
 
   if (!producto) {
-    return <div className="loading">Cargando...</div>;
+    return (
+      <div className="loading">
+        <p>Producto no encontrado.</p>
+        <button className="back-button" onClick={() => router.push('/')}>← Volver</button>
+      </div>
+    );
   }
 
   return (
