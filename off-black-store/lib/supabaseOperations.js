@@ -123,74 +123,22 @@ export const getCurrentUser = async () => {
 };
 
 // ============ PRODUCTS FUNCTIONS ============
-export const getProducts = async () => {
-  try {
-    const supabaseCheck = ensureSupabase();
-    if (!supabaseCheck.success) return { success: true, products: productos };
-
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 5000)
-    );
-
-    const fetchPromise = supabase
-      .from('products')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
-
-    if (error) throw error;
-
-    if (!data || data.length === 0) return { success: true, products: productos };
-
-    return { success: true, products: data };
-  } catch (error) {
-    return { success: true, products: productos };
-  }
-};
 
 const findInLocalProducts = (id) => {
   const pid = typeof id === 'string' && !isNaN(Number(id)) ? Number(id) : id;
   return productos.find(p => String(p.id) === String(id) || p.id === pid) || null;
 };
 
+// Productos locales son la fuente de verdad para el listado y detalle.
+// Supabase se usa solo para auth, carrito y órdenes.
+export const getProducts = async () => {
+  return { success: true, products: productos };
+};
+
 export const getProductById = async (id) => {
-  try {
-    const supabaseCheck = ensureSupabase();
-    if (!supabaseCheck.success) {
-      const found = findInLocalProducts(id);
-      if (found) return { success: true, product: found };
-      return { success: false, error: 'Producto no encontrado' };
-    }
-
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 5000)
-    );
-
-    const fetchPromise = supabase
-      .from('products')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle();
-
-    const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
-
-    if (error) throw error;
-
-    if (!data) {
-      const found = findInLocalProducts(id);
-      if (found) return { success: true, product: found };
-      return { success: false, error: 'Producto no encontrado' };
-    }
-
-    return { success: true, product: data };
-  } catch (error) {
-    if (error.message === 'timeout') {
-      const found = findInLocalProducts(id);
-      if (found) return { success: true, product: found };
-    }
-    return { success: false, error: error.message };
-  }
+  const found = findInLocalProducts(id);
+  if (found) return { success: true, product: found };
+  return { success: false, error: 'Producto no encontrado' };
 };
 
 // ============ CART FUNCTIONS ============
