@@ -1,16 +1,30 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const { data, error } = await supabaseAdmin
-    .from('orders')
-    .select('*, users(name, email)')
-    .order('created_at', { ascending: false });
+  const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/+$/, '');
+  const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (error) return Response.json({ error: error.message }, { status: 500 });
-  return Response.json({ orders: data });
+  if (!supabaseUrl || !serviceRole) {
+    return Response.json({ error: 'Faltan variables de entorno de Supabase' }, { status: 500 });
+  }
+
+  const res = await fetch(
+    `${supabaseUrl}/rest/v1/orders?select=*,users(name,email)&order=created_at.desc`,
+    {
+      headers: {
+        apikey: serviceRole,
+        Authorization: `Bearer ${serviceRole}`,
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.text();
+    return Response.json({ error: err }, { status: res.status });
+  }
+
+  const orders = await res.json();
+  return Response.json({ orders });
 }

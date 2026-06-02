@@ -1,7 +1,5 @@
--- ============================================================
+
 -- CREACIÓN DE TABLAS PARA OFF-BLACK STORE
--- Ejecuta estos queries en SQL Editor de Supabase
--- ============================================================
 
 -- 1. TABLA DE USUARIOS
 CREATE TABLE IF NOT EXISTS users (
@@ -82,15 +80,6 @@ CREATE POLICY "Users can access their own orders" ON orders
 CREATE POLICY "Users can create orders" ON orders
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- ============================================================
--- Fin de los queries
--- ============================================================
-
-
--- ============================================================
--- MIGRACIÓN SEMANA 12: Transacciones, Roles y Pagos
--- Ejecutar SOLO si ya corriste el setup inicial
--- ============================================================
 
 -- 1. ENUM para estado de orden
 DO $$ BEGIN
@@ -208,6 +197,4 @@ BEGIN
 END;
 $$;
 
--- ============================================================
--- Fin migración semana 12
--- ============================================================
+
