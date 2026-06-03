@@ -26,21 +26,25 @@ export async function POST(req) {
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
 
-    // Llama al stored procedure que valida stock, crea la orden y descuenta stock
-    // Si el stock es insuficiente, Postgres lanza una excepción y hace rollback automático
-    const { data, error } = await supabaseAdmin.rpc('crear_orden_completa', {
-      p_user_id: userId,
-      p_items: items,
-      p_total: total || 0,
-      p_shipping_address: shippingAddress || null,
-      p_metodo_pago: metodoPago || null,
-    });
+    // Los productos son locales (no están en Supabase), así que insertamos la orden directamente
+    // sin pasar por el stored procedure que requiere UUIDs de productos
+    const { data, error } = await supabaseAdmin
+      .from('orders')
+      .insert([{
+        user_id: userId,
+        items,
+        total: total || 0,
+        shipping_address: shippingAddress || null,
+        status: 'pending',
+        metodo_pago: metodoPago || null,
+      }])
+      .select()
+      .single();
 
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    // Vaciar el carrito del usuario en la base de datos
     await supabaseAdmin.from('cart_items').delete().eq('user_id', userId);
 
     return NextResponse.json({ success: true, order: data });
