@@ -1,13 +1,26 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect, useContext } from 'react';
+import { CartContext } from '../../context/CartContext';
 
 function ExitosoContent() {
   const params = useSearchParams();
   const router = useRouter();
-  const orderId = params.get('order_id');
+  const { clearCart } = useContext(CartContext);
+  const orderId = params.get('order_id') || params.get('external_reference');
+  const paymentId = params.get('payment_id');
+  const mpStatus = params.get('status');
+
+  useEffect(() => {
+    clearCart();
+    if (!paymentId || !orderId) return;
+    fetch('/api/pagos/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentId, orderId, mpStatus }),
+    });
+  }, [paymentId, orderId]);// eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="pago-result">
