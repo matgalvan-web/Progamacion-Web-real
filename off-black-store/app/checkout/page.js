@@ -13,9 +13,52 @@ export default function CheckoutPage() {
   const [shippingName, setShippingName] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
   const [shippingPhone, setShippingPhone] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [metodoPago, setMetodoPago] = useState('mercadopago');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  const validateName = (value) => {
+    if (!value.trim()) return 'El nombre es obligatorio';
+    if (value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres';
+    if (/\d/.test(value)) return 'El nombre no puede contener números';
+    const words = value.trim().split(/\s+/).filter(Boolean);
+    if (words.length < 2) return 'Ingresá nombre y apellido';
+    return '';
+  };
+
+  const validateAddress = (value) => {
+    if (!value.trim()) return 'La dirección es obligatoria';
+    if (value.trim().length < 8) return 'La dirección parece muy corta';
+    if (!/\d/.test(value)) return 'Incluí el número de la calle (ej: Av. Corrientes 1234)';
+    return '';
+  };
+
+  const validatePhone = (value) => {
+    if (!value) return '';
+    const digits = value.replace(/[\s\-().+]/g, '');
+    if (!/^\d+$/.test(digits)) return 'Solo se permiten números, espacios, guiones y paréntesis';
+    if (digits.length < 7) return 'El número es demasiado corto (mínimo 7 dígitos)';
+    if (digits.length > 15) return 'El número es demasiado largo (máximo 15 dígitos)';
+    return '';
+  };
+
+  const handleNameChange = (value) => {
+    setShippingName(value);
+    setNameError(validateName(value));
+  };
+
+  const handleAddressChange = (value) => {
+    setShippingAddress(value);
+    setAddressError(validateAddress(value));
+  };
+
+  const handlePhoneChange = (value) => {
+    setShippingPhone(value);
+    setPhoneError(validatePhone(value));
+  };
 
   const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
@@ -46,10 +89,15 @@ export default function CheckoutPage() {
   }
 
   const handleCheckout = async () => {
-    if (!shippingName || !shippingAddress) {
-      setMessage('Completá nombre y dirección de envío');
-      return;
-    }
+    const nameVal = validateName(shippingName);
+    const addressVal = validateAddress(shippingAddress);
+    const phoneVal = validatePhone(shippingPhone);
+
+    setNameError(nameVal);
+    setAddressError(addressVal);
+    setPhoneError(phoneVal);
+
+    if (nameVal || addressVal || phoneVal) return;
 
     setLoading(true);
     setMessage('');
@@ -106,7 +154,6 @@ export default function CheckoutPage() {
           return;
         }
 
-        clearCart();
         window.location.href = mpData.init_point;
       } else {
         clearCart();
@@ -157,30 +204,33 @@ export default function CheckoutPage() {
             <div className="checkout-form">
               <label className="checkout-label">Nombre completo *</label>
               <input
-                className="checkout-input"
+                className={`checkout-input${nameError ? ' checkout-input-error' : ''}`}
                 type="text"
                 placeholder="Ej: Juan Pérez"
                 value={shippingName}
-                onChange={(e) => setShippingName(e.target.value)}
+                onChange={(e) => handleNameChange(e.target.value)}
               />
+              {nameError && <span className="checkout-field-error">{nameError}</span>}
 
               <label className="checkout-label">Dirección de envío *</label>
               <input
-                className="checkout-input"
+                className={`checkout-input${addressError ? ' checkout-input-error' : ''}`}
                 type="text"
-                placeholder="Calle, número, ciudad"
+                placeholder="Calle, número, ciudad (ej: Rivadavia 1234, CABA)"
                 value={shippingAddress}
-                onChange={(e) => setShippingAddress(e.target.value)}
+                onChange={(e) => handleAddressChange(e.target.value)}
               />
+              {addressError && <span className="checkout-field-error">{addressError}</span>}
 
               <label className="checkout-label">Teléfono (opcional)</label>
               <input
-                className="checkout-input"
-                type="text"
+                className={`checkout-input${phoneError ? ' checkout-input-error' : ''}`}
+                type="tel"
                 placeholder="Ej: 11 1234-5678"
                 value={shippingPhone}
-                onChange={(e) => setShippingPhone(e.target.value)}
+                onChange={(e) => handlePhoneChange(e.target.value)}
               />
+              {phoneError && <span className="checkout-field-error">{phoneError}</span>}
 
               <label className="checkout-label">Método de pago *</label>
               <select
