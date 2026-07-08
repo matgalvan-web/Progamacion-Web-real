@@ -10,23 +10,35 @@ function getAdmin() {
 
 export async function PATCH(request, { params }) {
   const { id } = params;
-  const { status } = await request.json();
+  const body = await request.json();
+  const { nombre, precio, imagen, categoria, talles, colores, stock } = body;
+
+  const updates = {};
+  if (nombre !== undefined) updates.nombre = nombre;
+  if (precio !== undefined) updates.precio = Number(precio);
+  if (imagen !== undefined) updates.imagen = imagen;
+  if (categoria !== undefined) updates.descripcion = categoria;
+  if (talles !== undefined) updates.talles = talles;
+  if (colores !== undefined) updates.colores = colores;
+  if (stock !== undefined) updates.stock = Number(stock);
+  updates.updated_at = new Date().toISOString();
 
   const { data, error } = await getAdmin()
-    .from('orders')
-    .update({ status })
+    .from('products')
+    .update(updates)
     .eq('id', id)
-    .select();
+    .select()
+    .single();
 
   if (error) return Response.json({ error: error.message }, { status: 500 });
-  return Response.json({ order: data[0] });
+  return Response.json({ product: data });
 }
 
 export async function DELETE(request, { params }) {
   const { id } = params;
 
   const { error } = await getAdmin()
-    .from('orders')
+    .from('products')
     .delete()
     .eq('id', id);
 

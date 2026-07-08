@@ -7,6 +7,21 @@
   box-sizing: border-box;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -81,7 +96,8 @@ body::-webkit-scrollbar-thumb:hover {
   align-items: center;
 }
 
-.auth-button {
+.auth-button,
+.cart-link {
   border: none;
   background: transparent;
   cursor: pointer;
@@ -433,6 +449,9 @@ body::-webkit-scrollbar-thumb:hover {
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: inherit;
+  text-decoration: none;
+  display: block;
 }
 
 .producto-item:hover {
@@ -1868,6 +1887,19 @@ body::-webkit-scrollbar-thumb:hover {
   color: #555;
 }
 
+.checkout-input-error {
+  border-color: #e53e3e !important;
+}
+
+.checkout-field-error {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.72rem;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+}
+
 .cart-message {
   font-size: 0.75rem;
   letter-spacing: 1px;
@@ -1955,6 +1987,24 @@ body::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
 
+.pago-result-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pago-result-btn-secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  margin-top: 0;
+}
+
+.pago-result-btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+}
+
 /* ============ ADMIN PANEL ============ */
 .admin-auth-wall {
   min-height: 60vh;
@@ -1988,11 +2038,37 @@ body::-webkit-scrollbar-thumb:hover {
   color: #fff;
 }
 
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .admin-user-badge {
   font-family: 'Space Mono', monospace;
   font-size: 0.75rem;
   color: #666;
   letter-spacing: 1px;
+}
+
+.admin-refresh-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: #aaa;
+  border: 1px solid #333;
+  padding: 6px 14px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-refresh-btn:hover:not(:disabled) {
+  color: #fff;
+  border-color: #666;
+}
+
+.admin-refresh-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .admin-stats {
@@ -2213,6 +2289,96 @@ body::-webkit-scrollbar-thumb:hover {
   letter-spacing: 1px;
   color: #555;
   text-transform: uppercase;
+}
+
+.admin-products-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.admin-add-product-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-add-product-btn:hover {
+  opacity: 0.8;
+}
+
+.admin-edit-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 4px 10px;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: background 0.2s;
+}
+
+.admin-edit-btn:hover {
+  background: #333;
+}
+
+.admin-product-thumb {
+  object-fit: cover;
+  border: 1px solid #222;
+}
+
+.admin-no-img {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: #555;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-modal {
+  background: #0a0a0a;
+  border: 1px solid #222;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.admin-modal-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.admin-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 /* ============================================================
